@@ -9,6 +9,9 @@ import (
 	"github.com/spf13/viper"
 	"log"
 	"net/http"
+	"os"
+
+	"github.com/inconshreveable/go-update"
 )
 
 type System struct {
@@ -31,6 +34,21 @@ func handlerHealth(w http.ResponseWriter, r *http.Request) {
 	buf, _ := json.Marshal(health)
 
 	fmt.Fprintf(w, "%s", buf)
+}
+
+func handlerAutoUpdate(w http.ResponseWriter, r *http.Request) {
+	newVersion, err := os.Open(`D:\main.exe`)
+	if err != nil {
+		// error handling
+		log.Fatalf(err.Error())
+	}
+	defer newVersion.Close()
+	err = update.Apply(newVersion, update.Options{})
+	if err != nil {
+		log.Fatalf(err.Error())
+	}
+
+	fmt.Fprintf(w, "update success")
 }
 
 func initConfig() (config.Configuration, error) {
@@ -70,6 +88,7 @@ func main() {
 
 	server := fmt.Sprintf(":%d", settings.Server.Port)
 	http.HandleFunc("/health", handlerHealth)
+	http.HandleFunc("/autoupdate", handlerAutoUpdate)
 	err = http.ListenAndServe(server, nil)
 	if err != nil {
 		log.Fatalf(err.Error())
