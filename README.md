@@ -5,6 +5,8 @@
 - TODO: Поддержка ОС:
     - Windows
     - Ubuntu
+    - CentOS ???
+    - MacOS ???
 - TODO: Самообновление
 
 ## API
