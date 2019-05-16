@@ -1,5 +1,2 @@
-database:
-  connectionUri: "database connection uri"
-
-server:
-  port: 8082
+api:
+  port: 9523
