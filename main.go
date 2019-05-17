@@ -34,6 +34,7 @@ func main() {
 
 	server := fmt.Sprintf(":%d", settings.Api.Port)
 	http.HandleFunc("/health", api.HealthHandler)
+	http.HandleFunc("/platform", api.PlatformHandler)
 
 	if err := http.ListenAndServe(server, nil); err != nil {
 		panic(err)
